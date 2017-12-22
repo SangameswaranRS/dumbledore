@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dumbledore - Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+        .login-page {
+            width: 500px;
+            padding: 6% 0 0;
+            margin: auto;
+        }
+        .form {
+            position: relative;
+            z-index: 1;
+            background: #FFFFFF;
+            max-width: 360px;
+            margin: 0 auto 100px;
+            padding: 45px;
+            /*text-align: center;*/
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+        }
+        .form input {
+            font-family: "Roboto", sans-serif;
+            outline: 0;
+            background: #f2f2f2;
+            width: 100%;
+            border: 0;
+            margin: 0 0 15px;
+            padding: 15px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .form button {
+            font-family: "Roboto", sans-serif;
+            text-transform: uppercase;
+            outline: 0;
+            background: #4CAF50;
+            width: 100%;
+            border: 0;
+            padding: 15px;
+            color: #FFFFFF;
+            font-size: 14px;
+            -webkit-transition: all 0.3 ease;
+            transition: all 0.3 ease;
+            cursor: pointer;
+        }
+        .form button:hover,.form button:active,.form button:focus {
+            background: #43A047;
+        }
+        .form .message {
+            margin: 15px 0 0;
+            color: #b3b3b3;
+            font-size: 12px;
+        }
+        .form .message a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .form .register-form {
+            display: none;
+        }
+        .container {
+            padding-bottom: 0.1%;
+            position: relative;
+            z-index: 105;
+            width: 100%;
+            text-align: center;
+            /*max-width: 300px;*/
+            margin: 0;
+            color: #60a844;
+            background: #FFFFFF;
+            padding-top: 2%;
+            font-style: oblique;
+            font-size: 30px;
+            font-weight: bold;
+        }
+        /*.container:before, .container:after {
+            content: "";
+            display: block;
+            clear: both;
+        }*/
+        .container .info {
+            margin: 50px auto;
+            text-align: center;
+        }
+        .container .info h1 {
+            margin: 0 0 0px;
+            padding: 0;
+            font-size: 36px;
+            font-weight: 300;
+            color: #1a1a1a;
+        }
+        .container .info span {
+            color: #4d4d4d;
+            font-size: 12px;
+        }
+        .container .info span a {
+            color: #000000;
+            text-decoration: none;
+        }
+        .container .info span .fa {
+            color: #EF3B3A;
+        }
+        body {
+            font-family: "Roboto", sans-serif;
+            / background: #ff0000; /* fallback for old browsers*/
+             background: -webkit-linear-gradient(right, #76b852, #8DC26F);
+             background: -moz-linear-gradient(right, #76b852, #8DC26F);
+             background: -o-linear-gradient(right, #76b852, #8DC26F);
+             background: linear-gradient(to left, #76b852, #8DC26F);
+             -webkit-font-smoothing: antialiased;
+             -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
+</head>
+<body>
+<div class="container">Dumbledore - said a little meant a much..<br><br></div>
+    <div class="login-page">
+        <div class="form">
+        <form class="register-form">
+            <input type="text" placeholder="name" id="regUname"/>
+            <input type="password" placeholder="password" id="reguPass"/>
+            <input type="text" placeholder="email address" id="regEmail"/>
+            <input type="text" placeholder="gender" id="regGender"/>
+            <input type="text" placeholder="About" id="regAbout">
+            <button onclick="signupButtonClickAction()" type="button">create</button>
+            <p class="message">Already registered? <a href="#">Sign In</a></p>
+            </form>
+        <form class="login-form">
+            <input type="text" placeholder="username" id="userName"/>
+            <input type="password" placeholder="password" id="password"/>
+            <button onclick="loginButtonClickAction()" type="button">login</button>
+            <p class="message">Not registered? <a href="#">Create an account</a></p>
+        </form>
+    </div>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.js"  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"> </script>
+<script>
+    $('.message a').click(function(){
+        $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+    });
+    var loginButtonClickAction=function () {
+         var userName=document.getElementById('userName').value;
+        var password=document.getElementById('password').value;
+        var postParamJson={
+            userName : userName,
+            password :password
+        };
+        console.log(postParamJson);
+        postRequestGenericFunction("http://localhost:5959/login/webLogin",postParamJson,function (err,response) {
+           if(err ===null){
+                //alert(response.message);
+                setCookie('userId',response.userId,1);
+                setCookie('userName',userName,1);
+                setCookie('token',response.token,1);
+                window.location.href="images/index.html"
+           } else{
+               alert('Invalid username or password');
+           }
+        });
+
+    };
+    var setCookie=function (cname,cvalue,exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        var expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    };
+    var getCookie=function (cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) === 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    };
+    var deleteCookie=function () {
+        setCookie('userName',"",0);
+        setCookie('password',"",0);
+        alert('Cookies Related to this site has been deleted successfully')
+    };
+    var postRequestGenericFunction=function (url,postParams,callBack) {
+        var postRequest=new XMLHttpRequest();
+        postRequest.responseType='json';
+        postRequest.onload=function () {
+            var status=postRequest.status;
+            if(status ===200){
+                console.log('response success, callback');
+                callBack(null,postRequest.response);
+            }else{
+                callBack(postRequest.status,postRequest.response);
+            }
+        };
+        postRequest.open('POST',url,true);
+        postRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        postRequest.send(JSON.stringify(postParams));
+    };
+    var signupButtonClickAction=function () {
+        var userName =document.getElementById('regUname').value;
+        var password=document.getElementById('reguPass').value;
+        var userEmailId =document.getElementById('regEmail').value;
+        var regGender=document.getElementById('regGender').value;
+        var regAbout=document.getElementById('regAbout').value;
+        var postParamJson={
+            userName : userName,
+            password: password,
+            userEmailId :userEmailId,
+            gender : regGender,
+            aboutString : regAbout,
+            dpImgUrl : 'NO_DP'
+        };
+        console.log(postParamJson);
+        postRequestGenericFunction('http://localhost:5959/login/signUp',postParamJson,function (err,response) {
+           if(err ===null){
+               alert('Signup successful logging you in!');
+               setCookie('userId',response.userId,1);
+               setCookie('userName',userName,1);
+               setCookie('token',response.token,1);
+               window.location.href="images/index.html"
+           } else{
+               alert('SignUp unsuccessful, Try Again!!!');
+           }
+        });
+    };
+</script>
+</html>
