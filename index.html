@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Dumbledore..
+        </title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <style>
+            .profView{
+                width: 22%;
+                z-index: 5;
+                height: 100%;
+                background-color: #95c284;
+                position: fixed;
+            }
+            html,body{
+                height: 100%;
+            }
+            .profImage{
+                width: 130px;
+                height: 130px;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 100px;
+                position: relative;
+            }
+            .profName{
+                margin-left:auto;
+                margin-right: auto;
+                display: block;
+                text-align: center;
+               color: #FFFFFF;
+                margin-top: 10px;
+                font-size: 20px;
+            }
+            .profBodyContent{
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+                text-align: center;
+                color: #FFFFFF;
+                font-size: 14px;
+                line-height: 31px;
+            }
+            .buttonAlignment{
+                margin-right: auto;
+                margin-left:auto;
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="profView" style=" box-shadow: 10px 10px 5px #cbc9c9;">
+            <img src="images/sword.JPG" class="img-circle profImage"  id="profPhoto" alt="Profile Photo">
+            <p class="profName" id="profName"></p>
+            <p class="profBodyContent" id="profBodyContent"></p>
+            <button class="btn btn-danger buttonAlignment" onclick="logout()">LOGOUT</button>
+        </div>
+
+    </body>
+    <script>
+        //-------------- Method Declarations-------------//
+        var checkIfLoggedIn=function () {
+            if(getCookie('userId')===''||getCookie('userId')===undefined||getCookie('userName')===''||getCookie('userName')===undefined||getCookie('token')===undefined||getCookie('token')===''){
+                window.location.href="login.html";
+            }else{
+                //userLogged in
+                //alert('Logged in as :'+getCookie('userName'));
+            }
+        };
+        var setCookie=function (cname,cvalue,exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            var expires = "expires="+ d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        };
+        var getCookie=function (cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) === 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        };
+        var logout=function () {
+            setCookie('userId',"",0);
+            setCookie('userName',"",0);
+            setCookie('token',"",0);
+            window.location.href="login.html";
+        };
+        var postRequestGenericFunction=function (url,postParams,callBack) {
+            var postRequest=new XMLHttpRequest();
+            postRequest.responseType='json';
+            postRequest.open('POST',url,true);
+            postRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            postRequest.setRequestHeader('userName',""+getCookie('userName'));
+            console.log(getCookie('token'));
+            postRequest.setRequestHeader('accessToken',""+getCookie('token'));
+            console.log(postRequest);
+            postRequest.onload=function () {
+                var status=postRequest.status;
+                if(status ===200){
+                    console.log('response success, callback');
+                    callBack(null,postRequest.response);
+                }else{
+                    callBack(postRequest.status,postRequest.response);
+                }
+            };
+            postRequest.send(JSON.stringify(postParams));
+        };
+        var getProfileInfo=function () {
+            var postParamJson={
+                userId :getCookie('userId')
+            };
+            var profName=document.getElementById('profName');
+            profName.innerHTML=""+getCookie('userName');
+            var getProfileRequestAPI_URL="http://localhost:5959/server/api/getUserInitConfig";
+            console.log(postParamJson);
+            postRequestGenericFunction(getProfileRequestAPI_URL,postParamJson,function (err,response) {
+               if(err===null){
+                   console.log(response);
+                   var profBodyInnerHtmlContent="";
+                   profBodyInnerHtmlContent+="Email: "+response.userEmailId+"<br>"+"bio: "+response.aboutString+"<br>Followers:"+response.followers+"<br>Following:"+response.following+"";
+                   var profBodyContent=document.getElementById('profBodyContent');
+                   profBodyContent.innerHTML=profBodyInnerHtmlContent;
+                   if(response.dpImgUrl==='DP_NIL'|| response.dpImgUrl==='NO_DP'){
+                        document.getElementById('profPhoto').src='images/user_icon_web.png'
+                   }else{
+                        document.getElementById('profPhoto').src=response.dpImgUrl;
+                   }
+               } else{
+                   alert('Something went wrong! Login and try again Later!');
+                   logout();
+               }
+            });
+        };
+        //---------------Method Calls--------------------//
+        checkIfLoggedIn();
+        getProfileInfo();
+    </script>
+</html>
