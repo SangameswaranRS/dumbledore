@@ -54,9 +54,10 @@
     </head>
     <body>
         <div class="profView" style=" box-shadow: 10px 10px 5px #cbc9c9;">
-            <img src="images/sword.JPG" class="img-circle profImage"  id="profPhoto" alt="Profile Photo">
+            <img class="img-circle profImage"  id="profPhoto" alt="Profile Photo">
             <p class="profName" id="profName"></p>
             <p class="profBodyContent" id="profBodyContent"></p>
+            <p class="profBodyContent" id="profession"></p>
             <button class="btn btn-danger buttonAlignment" onclick="logout()">LOGOUT</button>
         </div>
 
@@ -144,8 +145,32 @@
                }
             });
         };
+        var getProfessionInfo=function () {
+            var postParam={
+                userId : getCookie('userId')
+            };
+            var API_URL='http://localhost:5959/server/api/getProfessionForUserId';
+            postRequestGenericFunction(API_URL,postParam,function (err,response) {
+               if(err===null){
+                   var pInnerHml="";
+                   var data=response.message;
+                   if(data.length>0){
+                       for(var i=0;i<data.length;i++){
+                           pInnerHml+=data[i].position+" at "+data[i].organization+"<br>";
+                       }
+                   }else{
+                       pInnerHml="No Professional Info Updated.."
+                   }
+                    document.getElementById('profession').innerHTML=pInnerHml;
+               }else {
+                   alert('Something went wrong!');
+                   window.location.href='index.html';
+               }
+            });
+        };
         //---------------Method Calls--------------------//
         checkIfLoggedIn();
         getProfileInfo();
+        getProfessionInfo();
     </script>
 </html>
