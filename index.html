@@ -11,12 +11,12 @@
             .profView{
                 width: 22%;
                 z-index: 5;
-                height: 100%;
-                background-color: #95c284;
+                min-height: 10000px;
+                background-color: #60a844;
                 position: fixed;
             }
             html,body{
-                height: 100%;
+                min-height: 100%;
             }
             .profImage{
                 width: 130px;
@@ -24,46 +24,81 @@
                 display: block;
                 margin-left: auto;
                 margin-right: auto;
-                margin-top: 100px;
+                margin-top: 50px;
                 position: relative;
             }
+            .editProfileButtonALignment{
+                margin-right: auto;
+                margin-left: auto;
+                font-family: "Bradley Hand ITC";
+                display: block;
+            }
             .profName{
+                font-family: "Bradley Hand ITC";
                 margin-left:auto;
                 margin-right: auto;
                 display: block;
                 text-align: center;
                color: #FFFFFF;
                 margin-top: 10px;
-                font-size: 20px;
+                font-size: 35px;
             }
             .profBodyContent{
+                font-family: "Bradley Hand ITC";
                 margin-left: auto;
                 margin-right: auto;
                 display: block;
                 text-align: center;
                 color: #FFFFFF;
-                font-size: 14px;
+                font-size: 17px;
                 line-height: 31px;
             }
             .buttonAlignment{
-                margin-right: auto;
+                font-family: "Bradley Hand ITC";
                 margin-left:auto;
                 display: block;
+                position: relative;
+                margin-top: 10px;
+                margin-right: 5px;
             }
         </style>
     </head>
     <body>
         <div class="profView" style=" box-shadow: 10px 10px 5px #cbc9c9;">
-            <img class="img-circle profImage"  id="profPhoto" alt="Profile Photo">
+            <button class="btn btn-danger buttonAlignment" onclick="logout()">LOGOUT</button>
+            <img class="img-circle profImage img-responsive"  id="profPhoto" alt="Profile Photo">
             <p class="profName" id="profName"></p>
             <p class="profBodyContent" id="profBodyContent"></p>
             <p class="profBodyContent" id="profession"></p>
-            <button class="btn btn-danger buttonAlignment" onclick="logout()">LOGOUT</button>
+            <button class="editProfileButtonALignment btn btn-primary" data-toggle="modal" data-target="#myModal"data-toggle="modal" data-target="#myModal">UPDATE PROFILE</button>
         </div>
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Update Profile</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" placeholder="Bio" id="bioUpdater">
+                        <button class="btn btn-default" id="bioUpdaterButton" onclick="updateBio()">Update Bio</button><br><br>
+                        <input type="text" placeholder="position" id="postionUpdater">
+                        at
+                        <input type="text" placeholder="organization" id="organizationUpdater">
+                        <button class="btn btn-default" id="professionUpdater" onclick="addProfession()">Add Profession</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="reload()">Close</button>
+                    </div>
+                </div>
 
+            </div>
+        </div>
     </body>
     <script>
-        //-------------- Method Declarations-------------//
+
+        //----------------------------------------------Method Declarations-----------------------------------------------------//
+
         var checkIfLoggedIn=function () {
             if(getCookie('userId')===''||getCookie('userId')===undefined||getCookie('userName')===''||getCookie('userName')===undefined||getCookie('token')===undefined||getCookie('token')===''){
                 window.location.href="login.html";
@@ -168,7 +203,56 @@
                }
             });
         };
-        //---------------Method Calls--------------------//
+        var updateBio=function () {
+            document.getElementById('bioUpdaterButton').innerHTML="Updating";
+          var API_URL="http://localhost:5959/server/api/updateBio";
+          var postParam={
+              userId : getCookie('userId'),
+              newBio : document.getElementById('bioUpdater').value
+          };
+          if( document.getElementById('bioUpdater').value.length>0) {
+              postRequestGenericFunction(API_URL, postParam, function (err, response) {
+                  if (err === null) {
+                      //OK - Request success.
+                      document.getElementById('bioUpdaterButton').innerHTML = "Updated";
+                  } else {
+                      document.getElementById('bioUpdaterButton').innerHTML = "Updation failed";
+                      alert('Something went wrong!')
+                  }
+              });
+          }else {
+              document.getElementById('bioUpdaterButton').innerHTML = "Updation failed";
+          }
+        };
+        var addProfession=function () {
+            var position=document.getElementById('postionUpdater').value;
+            var organization=document.getElementById('organizationUpdater').value;
+            var updateProfessionButton=document.getElementById('professionUpdater');
+            if(position.length>0&&organization.length>0){
+                updateProfessionButton.innerHTML="Updating..";
+                var postParam={
+                    userId :getCookie('userId'),
+                    position : position,
+                    organization : organization
+                };
+                var API_URL='http://localhost:5959/server/api/addProfession';
+                postRequestGenericFunction(API_URL,postParam,function (err,data) {
+                    if(err===null){
+                        updateProfessionButton.innerHTML="Updated"
+                    }else{
+                        updateProfessionButton.innerHTML="Failed - Retry"
+                    }
+                });
+            }else {
+                updateProfessionButton.innerHTML="Failed - Retry"
+            }
+        };
+        var reload=function () {
+          window.location.href="index.html";
+        };
+
+        //---------------------------------------------------Method Calls---------------------------------------------------------//
+
         checkIfLoggedIn();
         getProfileInfo();
         getProfessionInfo();

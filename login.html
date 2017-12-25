@@ -223,17 +223,21 @@
             dpImgUrl : 'NO_DP'
         };
         console.log(postParamJson);
-        postRequestGenericFunction('http://localhost:5959/login/signUp',postParamJson,function (err,response) {
-           if(err ===null){
-               alert('Signup successful logging you in!');
-               setCookie('userId',response.userId,1);
-               setCookie('userName',userName,1);
-               setCookie('token',response.token,1);
-               window.location.href="images/index.html"
-           } else{
-               alert('SignUp unsuccessful, Try Again!!!');
-           }
-        });
+        if(userName.length>0&&password.length>0&&userEmailId.length>0&&regGender.length>0&&regAbout.length>0) {
+            postRequestGenericFunction('http://localhost:5959/login/signUp', postParamJson, function (err, response) {
+                if (err === null) {
+                    alert('Signup successful logging you in!');
+                    setCookie('userId', response.userId, 1);
+                    setCookie('userName', userName, 1);
+                    setCookie('token', response.token, 1);
+                    window.location.href = "images/index.html"
+                } else {
+                    alert('SignUp unsuccessful, Try Again!!!');
+                }
+            });
+        }else{
+            alert('Fill all the fields');
+        }
     };
 </script>
 </html>
