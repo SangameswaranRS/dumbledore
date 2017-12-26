@@ -15,6 +15,16 @@
                 background-color: #60a844;
                 position: fixed;
             }
+            .postView{
+                width: 55%;
+                z-index: 2;
+                overflow-y: scroll;
+                height: 100%;
+                position: absolute;
+                float: right;
+                right:23%;
+                background-color: #cbc9c9;
+            }
             html,body{
                 min-height: 100%;
             }
@@ -26,6 +36,12 @@
                 margin-right: auto;
                 margin-top: 50px;
                 position: relative;
+            }
+            .searchHeader{
+                width: inherit;
+                height: 55px;
+                position: fixed;
+                background-color: #60a844;
             }
             .editProfileButtonALignment{
                 margin-right: auto;
@@ -61,10 +77,29 @@
                 margin-top: 10px;
                 margin-right: 5px;
             }
+            .searchInputStyle{
+                font-family: "Bradley Hand ITC";
+                outline: 0;
+                width: 40%;
+                background: #f2f2f2;
+                border: 0;
+                margin: 0 0 15px;
+                padding: 8px;
+                box-sizing: border-box;
+                font-size: 14px;
+            }
+            .searchInputCenterStyle{
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 10px;
+            }
         </style>
     </head>
     <body>
-        <div class="profView" style=" box-shadow: 10px 10px 5px #cbc9c9;">
+    <div>
+        <div class="profView">
+            <!--style=" box-shadow: 10px 10px 5px #cbc9c9;"-->
             <button class="btn btn-danger buttonAlignment" onclick="logout()">LOGOUT</button>
             <img class="img-circle profImage img-responsive"  id="profPhoto" alt="Profile Photo">
             <p class="profName" id="profName"></p>
@@ -94,6 +129,12 @@
 
             </div>
         </div>
+        <div class="postView">
+            <div class="searchHeader">
+                <input type="text" class="searchInputStyle searchInputCenterStyle" id="search" placeholder="search anything..">
+            </div>
+        </div>
+    </div>
     </body>
     <script>
 
