@@ -6,6 +6,7 @@
         </title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <style>
             .profView{
@@ -36,6 +37,12 @@
                 margin-right: auto;
                 margin-top: 50px;
                 position: relative;
+            }
+            .newPostPosition{
+                width: inherit;
+                margin-top: 65px;
+                position: fixed;
+                font-family: "Bradley Hand ITC"
             }
             .searchHeader{
                 width: inherit;
@@ -94,6 +101,11 @@
                 margin-right: auto;
                 margin-top: 10px;
             }
+            .postButtonPosition{
+                display: block;
+                margin-left: auto;
+                margin-right: 30px;
+            }
         </style>
     </head>
     <body>
@@ -132,6 +144,19 @@
         <div class="postView">
             <div class="searchHeader">
                 <input type="text" class="searchInputStyle searchInputCenterStyle" id="search" placeholder="search anything..">
+            </div>
+            <div class="card newPostPosition">
+                <textarea style="width: 90%;display: block;margin-left: 10px;margin-top: 10px"  placeholder="New Post.."></textarea>
+                <div class="container">
+                    <div class="row" style="margin-top: 10px;margin-bottom: 10px">
+                        <div class="col-lg-6">
+                            <button class="btn btn-primary">Upload image</button>
+                        </div>
+                        <div class="col-lg-6">
+                            <button class="btn btn-success">Post</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
