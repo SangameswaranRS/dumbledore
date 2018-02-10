@@ -202,11 +202,53 @@ var getNewsFeedPostsAndRender=function () {
            showToast("Something Went wrong!.. Try again");
        } else{
            // render Page
+           var postDivision =document.getElementById("postDivision");
+           var innerHtmlText="";
+           console.log(data.message);
+           for(var i=0;i<data.message.length;i++){
+               var epochNum=Number(data.message[i].postTime);
+               var time =new Date(epochNum);
+               var postId = data.message[i].postId;
+               var flag=0;
+               for(var i1=0; i1<data.likeInfo.length;i1++){
+                   console.log('Like post consoling');
+                   console.log(data.likeInfo[i1].postId);
+                   if(postId === data.likeInfo[i1].postId){
+                       flag=1;
+                       break;
+                   }
+               }
+               if(flag===0)
+                    innerHtmlText+=constructSinglePostElement(data.message[i].userName,data.message[i].postContent,time,data.message[i].likeCount,data.message[i].commentCount,0,postId);
+               else
+                   innerHtmlText+=constructSinglePostElement(data.message[i].userName,data.message[i].postContent,time,data.message[i].likeCount,data.message[i].commentCount,1,postId);
+           }
+           postDivision.innerHTML=innerHtmlText;
        }
     });
 };
-var constructSinglePostElement=function (userId,postContent,timeString,likeCount,commentCount,isLiked) {
-
+var constructSinglePostElement=function (userName,postContent,timeString,likeCount,commentCount,isLiked,postId) {
+    if(isLiked ===0)
+        return "<div class=\"individualDisplayStyle\">"+
+            "<img class=\"img-circle smallProfileImage\" src=\"images/post_user_icon.png\">"+
+            "<span class=\"postUserNameDisplayStyle\">"+userName+"</span> <br>"+
+            "<span class=\"timeDisplayStyle\">"+timeString+"</span><br>"+
+            "<span class=\"postContentDisplayStyle\">"+postContent+"</span><br>"+
+            "<span class=\"likeCommentDisplayStyle\">"+likeCount+ " likes "+ "and " +commentCount +" comments"+"</span><br>"+
+            "<button type=\"button\" class=\"btn btn-primary likeButtonParams\" id=\""+postId+"\"'>Like</button>"+
+            "<button type=\"button\" class=\"btn btn-success commentButtonParams\">comment</button>"+
+            "</div>";
+    else{
+        return "<div class=\"individualDisplayStyle\">"+
+            "<img class=\"img-circle smallProfileImage\" src=\"images/post_user_icon.png\">"+
+            "<span class=\"postUserNameDisplayStyle\">"+userName+"</span> <br>"+
+            "<span class=\"timeDisplayStyle\">"+timeString+"</span><br>"+
+            "<span class=\"postContentDisplayStyle\">"+postContent+"</span><br>"+
+            "<span class=\"likeCommentDisplayStyle\">"+likeCount+ " likes "+ "and " +commentCount +" comments"+"</span><br>"+
+            "<button type=\"button\" class=\"btn btn-primary likeButtonParams\">Liked</button>"+
+            "<button type=\"button\" class=\"btn btn-success commentButtonParams\">comment</button>"+
+            "</div>"
+    }
 };
 //---------------------------------------------------Method Calls---------------------------------------------------------//
 

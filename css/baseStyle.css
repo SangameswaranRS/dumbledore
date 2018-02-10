@@ -142,6 +142,7 @@ html,body{
 .postDisplayStyle{
     margin-top: 200px;
     height: 70%;
+    padding-left: 7px;
     position: fixed;
     width: inherit;
     overflow-y: scroll;
@@ -197,4 +198,8 @@ html,body{
     font-family: "Bradley Hand ITC",serif;
     font-size: 10px;
     margin-left: 10px;
+}
+
+.timeDisplayStyle{
+    font-size: 8px;
 }
