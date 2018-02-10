@@ -228,7 +228,23 @@ var getNewsFeedPostsAndRender=function () {
     });
 };
 var likePost=function (id) {
-  alert('Id='+id)
+  alert('Id='+id);
+  document.getElementById(id).innerHTML='Liked';
+  //Api to like Post.
+    var API_URL=baseURL+"/server/api/likePost";
+    var postParam={
+        postId : id,
+        userId : getCookie('userId')
+    };
+    postRequestGenericFunction(API_URL,postParam,function (err,data) {
+       if(err){
+           showToast('Something went wrong');
+           document.getElementById(id).innerHTML='Like';
+       } else{
+           showToast('You liked this post..')
+       }
+    });
+
 };
 var commentPost=function (id) {
   alert('Com Id= '+id);
