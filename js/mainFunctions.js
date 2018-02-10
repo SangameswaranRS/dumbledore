@@ -227,6 +227,12 @@ var getNewsFeedPostsAndRender=function () {
        }
     });
 };
+var likePost=function (id) {
+  alert('Id='+id)
+};
+var commentPost=function (id) {
+  alert('Com Id= '+id);
+};
 var constructSinglePostElement=function (userName,postContent,timeString,likeCount,commentCount,isLiked,postId) {
     if(isLiked ===0)
         return "<div class=\"individualDisplayStyle\">"+
@@ -235,8 +241,8 @@ var constructSinglePostElement=function (userName,postContent,timeString,likeCou
             "<span class=\"timeDisplayStyle\">"+timeString+"</span><br>"+
             "<span class=\"postContentDisplayStyle\">"+postContent+"</span><br>"+
             "<span class=\"likeCommentDisplayStyle\">"+likeCount+ " likes "+ "and " +commentCount +" comments"+"</span><br>"+
-            "<button type=\"button\" class=\"btn btn-primary likeButtonParams\" id=\""+postId+"\"'>Like</button>"+
-            "<button type=\"button\" class=\"btn btn-success commentButtonParams\">comment</button>"+
+            "<button type=\"button\" class=\"btn btn-primary likeButtonParams\" id=\""+postId+"\" onclick=\"likePost(this.id)\">Like</button>"+
+            "<button type=\"button\" class=\"btn btn-success commentButtonParams\" id=\""+postId+"\" onclick=\"commentPost(this.id)\">comment</button>"+
             "</div>";
     else{
         return "<div class=\"individualDisplayStyle\">"+
