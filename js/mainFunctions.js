@@ -1,12 +1,11 @@
 
 //----------------------------------------------Method Declarations-----------------------------------------------------//
-
+var baseURL="http://localhost:5959";
 var checkIfLoggedIn=function () {
     if(getCookie('userId')===''||getCookie('userId')===undefined||getCookie('userName')===''||getCookie('userName')===undefined||getCookie('token')===undefined||getCookie('token')===''){
         window.location.href="login.html";
     }else{
-        //userLogged in
-        //alert('Logged in as :'+getCookie('userName'));
+        showToast('Logged in as :'+getCookie('userName'))
     }
 };
 var setCookie=function (cname,cvalue,exdays) {
@@ -172,9 +171,27 @@ function toDataURL(src, callback, outputFormat) {
     }
 }
 var submitPost=function () {
-    console.log(document.getElementById('imgPicker').val());
-};
+    var createPostJson={
+        userId : getCookie("userId"),
+        postContent : document.getElementById("postContent").value
+    };
+    var API_URL = baseURL + "/server/api/uploadPost";
+    postRequestGenericFunction(API_URL,createPostJson,function (err,data) {
+       if(err){
+          showToast("post Creation Failed")
+       } else{
+           showToast("Shared post..");
+           document.getElementById("postContent").value="";
+       }
+    });
 
+};
+var showToast=function (toastString) {
+    var x = document.getElementById("snackbar");
+    x.innerHTML=toastString;
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+};
 //---------------------------------------------------Method Calls---------------------------------------------------------//
 
 checkIfLoggedIn();

@@ -5,21 +5,20 @@
             Dumbledore..
         </title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/baseStyle.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="css/baseStyle.css">
     </head>
     <body>
-    <div>
-        <div class="profView">
+        <div class="profView ">
             <!--style=" box-shadow: 10px 10px 5px #cbc9c9;"-->
             <button class="btn btn-danger buttonAlignment" onclick="logout()">LOGOUT</button>
             <img class="img-circle profImage img-responsive"  id="profPhoto" alt="Profile Photo">
             <p class="profName" id="profName"></p>
             <p class="profBodyContent" id="profBodyContent"></p>
             <p class="profBodyContent" id="profession"></p>
-            <button class="editProfileButtonALignment btn btn-primary" data-toggle="modal" data-target="#myModal"data-toggle="modal" data-target="#myModal">UPDATE PROFILE</button>
+            <button class="editProfileButtonALignment btn btn-primary" data-toggle="modal" data-target="#myModal">UPDATE PROFILE</button>
         </div>
         <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
@@ -43,18 +42,17 @@
 
             </div>
         </div>
-        <div class="postView">
+        <div class="postView ">
             <div class="searchHeader">
                 <input type="text" class="searchInputStyle searchInputCenterStyle" id="search" placeholder="search anything..">
             </div>
             <div class="card newPostPosition">
-                <textarea style="width: 50%;display: block;margin-left: 10px;margin-top: 10px;resize: none"  placeholder="New Post.."></textarea>
+                <textarea style="width: inherit%; box-sizing: border-box;  -moz-box-sizing: border-box;    /* For Firefox                          */
+-webkit-box-sizing: border-box; /* For Safari                           */;display: block;margin-left: 10px;margin-top: 10px;resize: none"  placeholder="New Post.." id="postContent"></textarea>
                 <div class="container">
                     <div class="row" style="margin-top: 10px;margin-bottom: 10px">
                         <div class="col-lg-6">
-                            <input type="file" id="imgPicker" onchange="toDataURL(this,function(data) {
-                                console.log('data url'+data) ;
-                            })" class="btn btn-primary">
+
                         </div>
                         <div class="col-lg-6">
                             <input type="button" class="btn btn-success" onclick="submitPost()" value="Post"/>
@@ -62,8 +60,17 @@
                     </div>
                 </div>
             </div>
+            <div class="card postDisplayStyle">
+                Hello Fucking world
+            </div>
         </div>
+        <div class="trendingView">
+
+        </div>
+        <div id="snackbar">
+        Some text some message..
     </div>
+
     </body>
     <script type="text/javascript" src="js/mainFunctions.js"></script>
 </html>
