@@ -192,8 +192,25 @@ var showToast=function (toastString) {
     x.className = "show";
     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 };
+var getNewsFeedPostsAndRender=function () {
+    var API_URL=baseURL+"/server/api/getNewsFeedPosts"
+    var postParam={
+        userId : getCookie("userId")
+    };
+    postRequestGenericFunction(API_URL,postParam,function (err,data) {
+       if(err){
+           showToast("Something Went wrong!.. Try again");
+       } else{
+           // render Page
+       }
+    });
+};
+var constructSinglePostElement=function (userId,postContent,timeString,likeCount,commentCount,isLiked) {
+
+};
 //---------------------------------------------------Method Calls---------------------------------------------------------//
 
 checkIfLoggedIn();
 getProfileInfo();
 getProfessionInfo();
+getNewsFeedPostsAndRender();
