@@ -203,3 +203,13 @@ html,body{
 .timeDisplayStyle{
     font-size: 8px;
 }
+
+.modalParams{
+    font-family: "Bradley Hand ITC",serif;
+}
+
+.followButtonStyle{
+    height: 25px;
+    font-family: "Bradley Hand ITC",serif;
+    font-size: 10px;
+}

@@ -309,6 +309,61 @@ var constructSinglePostElement=function (userName,postContent,timeString,likeCou
             "</div>";
     }
 };
+var getRequestGenericFunction=function (url,callBack) {
+    var getRequest=new XMLHttpRequest();
+    getRequest.responseType='json';
+    getRequest.open('GET',url,true);
+    getRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    getRequest.setRequestHeader('userName',""+getCookie('userName'));
+    console.log(getCookie('token'));
+    getRequest.setRequestHeader('accessToken',""+getCookie('token'));
+    console.log(getRequest);
+    getRequest.onload=function () {
+        var status=getRequest.status;
+        if(status ===200){
+            console.log('response success, callback');
+            callBack(null,getRequest.response);
+        }else{
+            callBack(getRequest.status,getRequest.response);
+        }
+    };
+    getRequest.send();
+};
+var searchUser=function () {
+  var searchString=document.getElementById('searchText').value;
+  var API_URL = baseURL+'/server/api/queryBasedUserSearch?search='+searchString;
+  getRequestGenericFunction(API_URL,function (err,data) {
+     if(err){
+         showToast('Something Went wrong try again..');
+     } else{
+         var innerHtmlElement = "<br><br>";
+         for(var i=0; i<data.message.length;i++){
+             innerHtmlElement+=constructSingleSearchUserElement(data.message[i]);
+             innerHtmlElement+="<br>";
+         }
+         document.getElementById('searchUsers').innerHTML=innerHtmlElement;
+     }
+  });
+};
+var constructSingleSearchUserElement=function (userJson) {
+    return "<div>"+userJson.userName+"<button type='button' class='btn btn-success followButtonStyle' id='"+userJson.userId+"' onclick='followUser(this.id)'>Follow</button></div>";
+};
+var followUser = function (id) {
+    var postParams={
+        userId : getCookie('userId'),
+        followingUserId : id
+    };
+    var API_URL=baseURL+"/server/api/postFollowing";
+    postRequestGenericFunction(API_URL,postParams,function (err,response) {
+       if(err){
+           showToast('Something went wrong');
+       } else{
+           showToast('User is currently being followed');
+       }
+    });
+
+
+};
 //---------------------------------------------------Method Calls---------------------------------------------------------//
 
 checkIfLoggedIn();
