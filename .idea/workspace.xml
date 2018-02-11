@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25a9b1e6-0f4d-47f6-9045-2f0bdcb956ff" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/mainFunctions.js" afterPath="$PROJECT_DIR$/js/mainFunctions.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -22,8 +20,8 @@
       <file leaf-file-name="mainFunctions.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/mainFunctions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="10" column="22" lean-forward="true" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+            <state relative-caret-position="407">
+              <caret line="271" column="76" lean-forward="false" selection-start-line="271" selection-start-column="76" selection-end-line="271" selection-end-column="76" />
               <folding>
                 <element signature="e#548#747#0" expanded="false" />
                 <element signature="e#780#1177#0" expanded="false" />
@@ -42,8 +40,8 @@
                 <element signature="e#7522#9039#0" expanded="false" />
                 <element signature="e#7597#7641#0" expanded="false" />
                 <element signature="e#7712#9035#0" expanded="false" />
-                <element signature="e#9682#9878#0" expanded="false" />
-                <element signature="e#9915#9942#0" expanded="false" />
+                <element signature="e#9760#9956#0" expanded="false" />
+                <element signature="e#9993#10020#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -319,12 +317,12 @@
       <workItem from="1514300070700" duration="8203000" />
       <workItem from="1515494443968" duration="4963000" />
       <workItem from="1518255137478" duration="27949000" />
-      <workItem from="1518350351989" duration="1782000" />
+      <workItem from="1518350351989" duration="3844000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="84631000" />
+    <option name="totallyTimeSpent" value="86693000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="51" y="0" width="1323" height="735" extended-state="0" />
@@ -356,7 +354,27 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="37" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/js/mainFunctions.js</url>
+          <line>234</line>
+          <properties />
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/js/mainFunctions.js</url>
+          <line>235</line>
+          <properties />
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/js/mainFunctions.js</url>
+          <line>236</line>
+          <properties />
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="40" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -383,8 +401,8 @@
             <element signature="e#7522#9039#0" expanded="false" />
             <element signature="e#7597#7641#0" expanded="false" />
             <element signature="e#7712#9035#0" expanded="false" />
-            <element signature="e#9682#9878#0" expanded="false" />
-            <element signature="e#9915#9942#0" expanded="false" />
+            <element signature="e#9760#9956#0" expanded="false" />
+            <element signature="e#9993#10020#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -610,8 +628,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/mainFunctions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="10" column="22" lean-forward="true" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+        <state relative-caret-position="407">
+          <caret line="271" column="76" lean-forward="false" selection-start-line="271" selection-start-column="76" selection-end-line="271" selection-end-column="76" />
           <folding>
             <element signature="e#548#747#0" expanded="false" />
             <element signature="e#780#1177#0" expanded="false" />
@@ -630,8 +648,8 @@
             <element signature="e#7522#9039#0" expanded="false" />
             <element signature="e#7597#7641#0" expanded="false" />
             <element signature="e#7712#9035#0" expanded="false" />
-            <element signature="e#9682#9878#0" expanded="false" />
-            <element signature="e#9915#9942#0" expanded="false" />
+            <element signature="e#9760#9956#0" expanded="false" />
+            <element signature="e#9993#10020#0" expanded="false" />
           </folding>
         </state>
       </provider>

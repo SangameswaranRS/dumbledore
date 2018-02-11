@@ -230,6 +230,7 @@ var getNewsFeedPostsAndRender=function () {
 var likePost=function (id) {
   //alert('Id='+id);
   document.getElementById(id).innerHTML='Liked';
+  document.getElementById(id).onclick=function () { unlikePost(this.id) };
   var span=document.getElementById(id+"_likeSpan").innerHTML;
   var splitSpan =span.split(" ");
   var likeCount = Number(splitSpan[0]);
@@ -237,7 +238,7 @@ var likePost=function (id) {
   //alert(likeCount);
 
     var commentCount=Number(splitSpan[3]);
-    document.getElementById(id+"_likeSpan").innerHTML=likeCount+"likes and"+commentCount+"comments";
+    document.getElementById(id+"_likeSpan").innerHTML=likeCount+" likes and "+commentCount+" comments";
   //Api to like Post.
     var API_URL=baseURL+"/server/api/likePost";
     var postParam={
@@ -258,6 +259,31 @@ var commentPost=function (id) {
   alert('Com Id= '+id);
 };
 var unlikePost=function (id) {
+    //alert('Id='+id);
+    document.getElementById(id).innerHTML='Like';
+    document.getElementById(id).onclick=function () { likePost(this.id) };
+    var span=document.getElementById(id+"_likeSpan").innerHTML;
+    var splitSpan =span.split(" ");
+    var likeCount = Number(splitSpan[0]);
+    likeCount--;
+    //alert(likeCount);
+
+    var commentCount=Number(splitSpan[3]);
+    document.getElementById(id+"_likeSpan").innerHTML=likeCount+" likes and "+commentCount+" comments";
+    //Api to unlike Post.
+    var API_URL=baseURL+"/server/api/unlikePost";
+    var postParam={
+        postId : id,
+        userId : getCookie('userId')
+    };
+    postRequestGenericFunction(API_URL,postParam,function (err,data) {
+        if(err){
+            showToast('Something went wrong');
+            document.getElementById(id).innerHTML='Like';
+        } else{
+            showToast('You unliked this post..')
+        }
+    });
 
 };
 var constructSinglePostElement=function (userName,postContent,timeString,likeCount,commentCount,isLiked,postId) {
