@@ -64,7 +64,9 @@
             </div>
         </div>
         <div class="trendingView">
-
+            <div>
+                #TRENDING
+            </div>
         </div>
         <div id="snackbar">
             Hello From Dumbledore..
@@ -87,9 +89,36 @@
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                 </div>
-
             </div>
         </div>
+        <div id="commentModal" class="modal fade " role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Post</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="commentPostView">
+                                Loading.. Please wait..
+                        </div>
+                        <div style="font-family: 'Bradley Hand ITC';color: #60a844">
+                            Comments:
+                        </div>
+                        <div id="commentCommentView"></div>
+                        <div>
+                            <input type="text" style="font-family: 'Bradley Hand ITC'" class="" placeholder="Comment" id="newCommentInput">
+
+                            <button type="button" class="btn btn-primary likeButtonParams" onclick="addComment()">Add Comment</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="flushModalData()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </body>
     <script type="text/javascript" src="js/mainFunctions.js"></script>
 </html>

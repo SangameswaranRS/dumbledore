@@ -86,7 +86,7 @@
                     setCookie('userId', response.userId, 1);
                     setCookie('userName', userName, 1);
                     setCookie('token', response.token, 1);
-                    window.location.href = "images/index.html"
+                    window.location.href = "index.html"
                 } else {
                     alert('SignUp unsuccessful, Try Again!!!');
                 }

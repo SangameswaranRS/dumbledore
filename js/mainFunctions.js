@@ -1,6 +1,7 @@
 
 //----------------------------------------------Method Declarations-----------------------------------------------------//
 var baseURL="http://localhost:5959";
+var globalPostId;
 var checkIfLoggedIn=function () {
     if(getCookie('userId')===''||getCookie('userId')===undefined||getCookie('userName')===''||getCookie('userName')===undefined||getCookie('token')===undefined||getCookie('token')===''){
         window.location.href="login.html";
@@ -256,8 +257,62 @@ var likePost=function (id) {
 
 };
 var commentPost=function (id) {
-  alert('Com Id= '+id);
+  //alert('Com Id= '+id);
+    globalPostId = id;
+    renderPostModal();
 };
+var renderPostModal=function () {
+    var API_URL = baseURL+"/server/api/getPostInfo?postId="+globalPostId;
+    getRequestGenericFunction(API_URL,function (err,response) {
+        if(err !== null){
+            showToast("Something went wrong!. Try again");
+            reload();
+        }else{
+            var epochNum=Number(response.postInfo.postTime);
+            var time =new Date(epochNum);
+            var postDiv="<div class=\"individualDisplayStyle\">"+
+            "<img class=\"img-circle smallProfileImage\" src=\"images/post_user_icon.png\">"+
+            "<span class=\"postUserNameDisplayStyle\">"+response.postInfo.userName+"</span> <br>"+
+            "<span class=\"timeDisplayStyle\">"+time+"</span><br>"+
+            "<span class=\"postContentDisplayStyle\">"+response.postInfo.postContent+"</span><br>"+
+            "<span class=\"likeCommentDisplayStyle\" id=\""+response.postInfo.postId+"_likeSpan"+"\">"+response.postInfo.likeCount+ " likes "+ "and " +response.postInfo.commentCount +" comments"+"</span><br>"+
+            "</div>";
+            document.getElementById('commentPostView').innerHTML= postDiv;
+            var commentInnerHtmlText="";
+            for(var i=0;i<response.commentInfo.length;i++){
+                commentInnerHtmlText+=constructSingleCommentElement(response.commentInfo[i].userName,response.commentInfo[i].comments);
+            }
+            document.getElementById('commentCommentView').innerHTML = commentInnerHtmlText;
+        }
+    });
+};
+var addComment=function () {
+  var commentContent = document.getElementById('newCommentInput').value;
+  var postParams={
+      userId : getCookie('userId'),
+      postId : globalPostId,
+      comments: commentContent
+  };
+  var API_URL=baseURL+'/server/api/postComment';
+  postRequestGenericFunction(API_URL,postParams,function (err,response) {
+     if(err!==null){
+         showToast('Something went wrong.. Try again');
+     } else{
+         showToast('Comment posted successfully');
+         document.getElementById('commentCommentView').innerHTML+=constructSingleCommentElement(getCookie('userName'),commentContent);
+         document.getElementById('newCommentInput').value="";
+     }
+  });
+};
+var flushModalData=function () {
+    document.getElementById('commentPostView').innerHTML= "Loading please wait..";
+    document.getElementById('commentCommentView').innerHTML = "";
+};
+
+var constructSingleCommentElement=function (userName,commentContent) {
+    return "<div><span class='likeCommentDisplayStyle'>"+userName+":</span><span class='postContentDisplayStyle'>"+commentContent+"</span></div>"
+};
+
 var unlikePost=function (id) {
     //alert('Id='+id);
     document.getElementById(id).innerHTML='Like';
@@ -286,6 +341,7 @@ var unlikePost=function (id) {
     });
 
 };
+
 var constructSinglePostElement=function (userName,postContent,timeString,likeCount,commentCount,isLiked,postId) {
     if(isLiked ===0)
         return "<div class=\"individualDisplayStyle\">"+
@@ -295,7 +351,7 @@ var constructSinglePostElement=function (userName,postContent,timeString,likeCou
             "<span class=\"postContentDisplayStyle\">"+postContent+"</span><br>"+
             "<span class=\"likeCommentDisplayStyle\" id=\""+postId+"_likeSpan"+"\">"+likeCount+ " likes "+ "and " +commentCount +" comments"+"</span><br>"+
             "<button type=\"button\" class=\"btn btn-primary likeButtonParams\" id=\""+postId+"\" onclick=\"likePost(this.id)\">Like</button>"+
-            "<button type=\"button\" class=\"btn btn-success commentButtonParams\" id=\""+postId+"\" onclick=\"commentPost(this.id)\">comment</button>"+
+            "<button type=\"button\" class=\"btn btn-success commentButtonParams\" id=\""+postId+"\" onclick=\"commentPost(this.id)\" data-toggle=\"modal\" data-target=\"#commentModal\">comment</button>"+
             "</div>";
     else{
         return "<div class=\"individualDisplayStyle\">"+
@@ -305,10 +361,11 @@ var constructSinglePostElement=function (userName,postContent,timeString,likeCou
             "<span class=\"postContentDisplayStyle\">"+postContent+"</span><br>"+
             "<span class=\"likeCommentDisplayStyle\" id=\""+postId+"_likeSpan"+"\">"+likeCount+ " likes "+ "and " +commentCount +" comments"+"</span><br>"+
             "<button type=\"button\" class=\"btn btn-primary likeButtonParams\" id=\""+postId+"\" onclick=\"unlikePost(this.id)\">Liked</button>"+
-            "<button type=\"button\" class=\"btn btn-success commentButtonParams\" id=\""+postId+"\" onclick=\"commentPost(this.id)\">comment</button>"+
+            "<button type=\"button\" class=\"btn btn-success commentButtonParams\" id=\""+postId+"\" onclick=\"commentPost(this.id)\" data-toggle=\"modal\" data-target=\"#commentModal\">comment</button>"+
             "</div>";
     }
 };
+
 var getRequestGenericFunction=function (url,callBack) {
     var getRequest=new XMLHttpRequest();
     getRequest.responseType='json';
@@ -329,6 +386,7 @@ var getRequestGenericFunction=function (url,callBack) {
     };
     getRequest.send();
 };
+
 var searchUser=function () {
   var searchString=document.getElementById('searchText').value;
   var API_URL = baseURL+'/server/api/queryBasedUserSearch?search='+searchString;
@@ -345,9 +403,11 @@ var searchUser=function () {
      }
   });
 };
+
 var constructSingleSearchUserElement=function (userJson) {
     return "<div>"+userJson.userName+"<button type='button' class='btn btn-success followButtonStyle' id='"+userJson.userId+"' onclick='followUser(this.id)'>Follow</button></div>";
 };
+
 var followUser = function (id) {
     var postParams={
         userId : getCookie('userId'),
@@ -364,6 +424,8 @@ var followUser = function (id) {
 
 
 };
+
+
 //---------------------------------------------------Method Calls---------------------------------------------------------//
 
 checkIfLoggedIn();
