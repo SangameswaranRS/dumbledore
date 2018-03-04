@@ -4,6 +4,7 @@
     min-height: 10000px;
     background-color: #60a844;
     position: fixed;
+    overflow-y: scroll;
 }
 .postView{
     width: 55%;
@@ -19,7 +20,7 @@ html,body{
     min-height: 100%;
     overflow-y: scroll;
 }
-.profImage{
+.profImage{  /*same for AI image too*/
     width: 130px;
     height: 130px;
     display: block;
@@ -212,4 +213,11 @@ html,body{
     height: 25px;
     font-family: "Bradley Hand ITC",serif;
     font-size: 10px;
+}
+
+.pDisplayStyle{
+    font-family: "Bradley Hand ITC",serif;
+    color: #fff;
+    text-align: center;
+
 }

@@ -12,7 +12,6 @@
     </head>
     <body>
         <div class="profView ">
-            <!--style=" box-shadow: 10px 10px 5px #cbc9c9;"-->
             <button class="btn btn-danger buttonAlignment" onclick="logout()">LOGOUT</button>
             <img class="img-circle profImage img-responsive"  id="profPhoto" alt="Profile Photo">
             <p class="profName" id="profName"></p>
@@ -65,7 +64,23 @@
         </div>
         <div class="trendingView">
             <div>
-                #TRENDING
+                <img class="img-circle profImage img-responsive"  onclick="sayHi()" id="aiPic" src="images/AI_icon.png" alt="AI icon">
+                <p class="pDisplayStyle">Have a talk with our AI
+            </div>
+            <div id="map" style="overflow: visible;width: 90%;height: 30%;margin-left: 4px;margin-top: 10px">
+                Loading preview..
+            </div>
+            <div id="zoneAlert" style="font-family: 'Bradley Hand ITC',serif;color: #ffffff;margin-top: 3.7%">
+                Loading Zonal Info..
+            </div>
+            <div id="mediaSentiment" style="font-family: 'Bradley Hand ITC',serif;color: #ffffff;margin-top: 3.7%">
+                Media sentiment: happy, evocative
+            </div>
+            <div id="trendingHashTags" style="font-family: 'Bradley Hand ITC',serif;color: #ffffff;margin-top: 3.7%">
+                Loading..
+            </div>
+            <div id="footerCopyright" style="font-family: sans-serif;color: #fff;margin-top: 2%;font-weight: bold">
+                &copy; Company Sergeant Major Sangameswaran R S.
             </div>
         </div>
         <div id="snackbar">
@@ -121,4 +136,29 @@
 
     </body>
     <script type="text/javascript" src="js/mainFunctions.js"></script>
+    <script type="text/javascript">
+        var map;
+
+        function initMap() {
+            console.log('callback received');
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 13.014774599999999, lng: 80.23797890000002},
+                zoom: 10
+            });
+            requestLocation(function (err,lat,long) {
+               if(err===null){
+                   console.log(lat);
+                   var marker = new google.maps.Marker({
+                       position: new google.maps.LatLng(lat, long),
+                       animation: google.maps.Animation.BOUNCE,
+                       map: map
+                   });
+                   locationAlertPrediction(lat,long);
+               }
+            });
+        }
+
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-z8RzxVtfoJxB7Ax3YeIJGhhdWk5z4Lg&callback=initMap"></script>
 </html>

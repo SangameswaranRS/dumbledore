@@ -2,6 +2,7 @@
 //----------------------------------------------Method Declarations-----------------------------------------------------//
 var baseURL="http://localhost:5959";
 var globalPostId;
+var userLat,userLong;
 var checkIfLoggedIn=function () {
     if(getCookie('userId')===''||getCookie('userId')===undefined||getCookie('userName')===''||getCookie('userName')===undefined||getCookie('token')===undefined||getCookie('token')===''){
         window.location.href="login.html";
@@ -9,12 +10,19 @@ var checkIfLoggedIn=function () {
         showToast('Logged in as :'+getCookie('userName'))
     }
 };
+
+var sayHi =function () {
+    console.log('Hello');
+    var msg = new SpeechSynthesisUtterance('Hello i am dumbledore');
+    window.speechSynthesis.speak(msg);
+};
 var setCookie=function (cname,cvalue,exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 };
+
 var getCookie=function (cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -30,12 +38,14 @@ var getCookie=function (cname) {
     }
     return "";
 };
+
 var logout=function () {
     setCookie('userId',"",0);
     setCookie('userName',"",0);
     setCookie('token',"",0);
     window.location.href="login.html";
 };
+
 var postRequestGenericFunction=function (url,postParams,callBack) {
     var postRequest=new XMLHttpRequest();
     postRequest.responseType='json';
@@ -56,6 +66,7 @@ var postRequestGenericFunction=function (url,postParams,callBack) {
     };
     postRequest.send(JSON.stringify(postParams));
 };
+
 var getProfileInfo=function () {
     var postParamJson={
         userId :getCookie('userId')
@@ -82,6 +93,7 @@ var getProfileInfo=function () {
         }
     });
 };
+
 var getProfessionInfo=function () {
     var postParam={
         userId : getCookie('userId')
@@ -105,6 +117,7 @@ var getProfessionInfo=function () {
         }
     });
 };
+
 var updateBio=function () {
     document.getElementById('bioUpdaterButton').innerHTML="Updating";
     var API_URL="http://localhost:5959/server/api/updateBio";
@@ -126,6 +139,7 @@ var updateBio=function () {
         document.getElementById('bioUpdaterButton').innerHTML = "Updation failed";
     }
 };
+
 var addProfession=function () {
     var position=document.getElementById('postionUpdater').value;
     var organization=document.getElementById('organizationUpdater').value;
@@ -149,9 +163,11 @@ var addProfession=function () {
         updateProfessionButton.innerHTML="Failed - Retry"
     }
 };
+
 var reload=function () {
     window.location.href="index.html";
 };
+
 function toDataURL(src, callback, outputFormat) {
     var img = new Image();
     img.crossOrigin = 'Anonymous';
@@ -171,6 +187,7 @@ function toDataURL(src, callback, outputFormat) {
         img.src = src;
     }
 }
+
 var submitPost=function () {
     var createPostJson={
         userId : getCookie("userId"),
@@ -187,12 +204,14 @@ var submitPost=function () {
     });
 
 };
+
 var showToast=function (toastString) {
     var x = document.getElementById("snackbar");
     x.innerHTML=toastString;
     x.className = "show";
     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 };
+
 var getNewsFeedPostsAndRender=function () {
     var API_URL=baseURL+"/server/api/getNewsFeedPosts"
     var postParam={
@@ -212,8 +231,8 @@ var getNewsFeedPostsAndRender=function () {
                var postId = data.message[i].postId;
                var flag=0;
                for(var i1=0; i1<data.likeInfo.length;i1++){
-                   console.log('Like post consoling');
-                   console.log(data.likeInfo[i1].postId);
+                   //console.log('Like post consoling');
+                   //console.log(data.likeInfo[i1].postId);
                    if(postId === data.likeInfo[i1].postId){
                        flag=1;
                        break;
@@ -228,6 +247,7 @@ var getNewsFeedPostsAndRender=function () {
        }
     });
 };
+
 var likePost=function (id) {
   //alert('Id='+id);
   document.getElementById(id).innerHTML='Liked';
@@ -256,11 +276,13 @@ var likePost=function (id) {
     });
 
 };
+
 var commentPost=function (id) {
   //alert('Com Id= '+id);
     globalPostId = id;
     renderPostModal();
 };
+
 var renderPostModal=function () {
     var API_URL = baseURL+"/server/api/getPostInfo?postId="+globalPostId;
     getRequestGenericFunction(API_URL,function (err,response) {
@@ -286,6 +308,7 @@ var renderPostModal=function () {
         }
     });
 };
+
 var addComment=function () {
   var commentContent = document.getElementById('newCommentInput').value;
   var postParams={
@@ -293,17 +316,22 @@ var addComment=function () {
       postId : globalPostId,
       comments: commentContent
   };
-  var API_URL=baseURL+'/server/api/postComment';
-  postRequestGenericFunction(API_URL,postParams,function (err,response) {
-     if(err!==null){
-         showToast('Something went wrong.. Try again');
-     } else{
-         showToast('Comment posted successfully');
-         document.getElementById('commentCommentView').innerHTML+=constructSingleCommentElement(getCookie('userName'),commentContent);
-         document.getElementById('newCommentInput').value="";
-     }
-  });
+  if(commentContent.length>0) {
+      var API_URL = baseURL + '/server/api/postComment';
+      postRequestGenericFunction(API_URL, postParams, function (err, response) {
+          if (err !== null) {
+              showToast('Something went wrong.. Try again');
+          } else {
+              showToast('Comment posted successfully');
+              document.getElementById('commentCommentView').innerHTML += constructSingleCommentElement(getCookie('userName'), commentContent);
+              document.getElementById('newCommentInput').value = "";
+          }
+      });
+  }else{
+      showToast("Enter comment to post");
+  }
 };
+
 var flushModalData=function () {
     document.getElementById('commentPostView').innerHTML= "Loading please wait..";
     document.getElementById('commentCommentView').innerHTML = "";
@@ -425,10 +453,50 @@ var followUser = function (id) {
 
 };
 
+var requestLocation=function (callback) {
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function (location) {
+            console.log(location);
+            userLat=location.coords.latitude;
+            userLong=location.coords.longitude;
+            console.log(userLat);
+            callback(null,userLat,userLong);
+        });
+    }
+};
 
+var locationAlertPrediction=function (lat,long) {
+  var postParams={
+      latitude :lat,
+      longitude:long
+  } ;
+  var API_URL=baseURL+"/server/api/locationType";
+  postRequestGenericFunction(API_URL,postParams,function (err,response) {
+     if(err ===null){
+            document.getElementById('zoneAlert').innerHTML="You are in "+response.prediction+" Zone";
+     } else{
+            showToast('Something wet wrong..')
+     }
+  });
+};
+
+var getTrendingHashTags=function () {
+  var API_URL=baseURL+'/server/api/trending';
+  //alert(API_URL);
+  getRequestGenericFunction(API_URL,function (err,response) {
+     if(err===null){
+         console.log('Trendig is trending');
+         console.log(response);
+         document.getElementById('trendingHashTags').innerHTML=response.message;
+     } else{
+         showToast('Something went wrong..Try again!');
+     }
+  });
+};
 //---------------------------------------------------Method Calls---------------------------------------------------------//
 
 checkIfLoggedIn();
 getProfileInfo();
 getProfessionInfo();
 getNewsFeedPostsAndRender();
+getTrendingHashTags();
